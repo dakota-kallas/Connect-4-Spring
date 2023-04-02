@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@SuppressWarnings("serial")
 @Document
 public class User implements UserDetails {
 	@Id
@@ -21,6 +20,7 @@ public class User implements UserDetails {
 	private String password;
 	@Indexed(unique=true)
 	private String username;
+	private Theme defaults;
 	private boolean isAccountNonExpired;
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
@@ -54,6 +54,14 @@ public class User implements UserDetails {
 		}
 		
 		return authorities;
+	}
+
+	public Theme getDefaults() {
+		return defaults;
+	}
+
+	public void setDefaults(Theme defaults) {
+		this.defaults = defaults;
 	}
 	
 	public void setPassword( String password ) {
@@ -98,6 +106,7 @@ public class User implements UserDetails {
 		private List<String> roles;
 		private String password;
 		private String username;
+		private Theme defaults;
 		private boolean isAccountNonExpired;
 		private boolean isAccountNonLocked;
 		private boolean isCredentialsNonExpired;
@@ -106,6 +115,7 @@ public class User implements UserDetails {
 		public Builder roles( List<String> roles ) { this.roles = roles; return this; }
 		public Builder username( String username ) { this.username = username; return this; }
 		public Builder password( String password ) { this.password = password; return this; }
+		public Builder defaults( Theme defaults ) { this.defaults = defaults; return this; }
 		public Builder isAccountNonExpired( boolean f ) { this.isAccountNonExpired = f; return this; }
 		public Builder isAccountNonLocked( boolean f ) { this.isAccountNonLocked = f; return this; }
 		public Builder isCredentialsNonExpired( boolean f) { this.isCredentialsNonExpired = f; return this; }

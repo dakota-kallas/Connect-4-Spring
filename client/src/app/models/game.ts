@@ -1,8 +1,9 @@
 import { Theme } from './theme';
+import { User } from './user';
 
 export interface Game {
   id: string;
-  owner: Date;
+  owner: User;
   start: Date;
   end: string;
   theme: Theme;

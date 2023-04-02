@@ -1,4 +1,4 @@
-package com.connect4.server;
+package com.dk.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

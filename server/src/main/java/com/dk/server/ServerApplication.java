@@ -1,4 +1,4 @@
-package com.connect4.server;
+package com.dk.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

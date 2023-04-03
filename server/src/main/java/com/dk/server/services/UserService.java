@@ -2,25 +2,25 @@ package com.dk.server.services;
 
 import java.util.Arrays;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dk.server.models.User;
 import com.dk.server.repositories.UserRepository;
+
+import jakarta.annotation.PostConstruct;
 
 @Service
 public class UserService implements UserDetailsService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private PasswordEncoder encoder;
+	// @Autowired
+	// private PasswordEncoder encoder;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,7 +38,8 @@ public class UserService implements UserDetailsService {
 	public void makeMockUsers() {
 		if( this.userRepository.count() > 0 ) return;		
 		this.userRepository.deleteAll();
-		String hashedPassword = encoder.encode("123");
+		// String hashedPassword = encoder.encode("123");
+		String hashedPassword = "123";
 		User tu = new User.Builder()
 				.roles( Arrays.asList( "USER", "ADMIN" ) )
 				.password( hashedPassword )

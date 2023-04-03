@@ -32,6 +32,7 @@ public class User implements UserDetails {
 		this.roles = b.roles;
 		this.password = b.password;
 		this.username = b.username;
+		this.defaults = b.defaults;
 		this.isAccountNonExpired = b.isAccountNonExpired;
 		this.isAccountNonLocked = b.isAccountNonLocked;
 		this.isCredentialsNonExpired = b.isCredentialsNonExpired;

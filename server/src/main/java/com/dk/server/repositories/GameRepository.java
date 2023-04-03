@@ -8,7 +8,4 @@ import com.dk.server.models.Game;
 
 public interface GameRepository extends MongoRepository<Game, String> {
     List<Game> findByOwner( String owner );
-
-    // TODO: FIX THIS
-    Game findOne(String id);
 }

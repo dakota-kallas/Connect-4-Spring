@@ -48,6 +48,10 @@ public class UserService implements UserDetailsService {
 			makeMockUsers();
 		}
 	}
+	
+	public User updateUser(User user) {
+		return userRepository.save(user);
+	}
 
 	private void makeMockTokens() {
 		this.tokenRepository.deleteAll();

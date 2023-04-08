@@ -18,17 +18,17 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	// @RequestMapping(value="/user", method=RequestMethod.GET)
-	// @Nullable
-	// public UserDetails getUser( Principal p ) {
-	// 	if( p == null || p.getName() == null ) return null;
-	// 	return userService.loadUserByUsername( p.getName() );
-	// }
+//	 @RequestMapping(value="/user", method=RequestMethod.GET)
+//	 @Nullable
+//	 public UserDetails getUser( Principal p ) {
+//	 	if( p == null || p.getName() == null ) return null;
+//	 	return userService.loadUserByUsername( p.getName() );
+//	 }
 
-	// @GetMapping("/login")
-    // public String myPage(HttpSession session) {
-    //     session.setAttribute("myAttribute", "myValue");
-    //     return "myPage";
-    // }
+//	 @GetMapping("/login")
+//     public String myPage(HttpSession session) {
+//         session.setAttribute("myAttribute", "myValue");
+//         return "myPage";
+//     }
 }
 

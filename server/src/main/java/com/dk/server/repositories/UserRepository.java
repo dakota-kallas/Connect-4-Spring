@@ -6,4 +6,5 @@ import com.dk.server.models.User;
 
 public interface UserRepository extends MongoRepository<User, String>{
     public User findByUsername( String username );
+    public long count();
 }

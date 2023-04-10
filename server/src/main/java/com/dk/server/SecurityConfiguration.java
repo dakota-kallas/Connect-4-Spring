@@ -1,37 +1,48 @@
 package com.dk.server;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+import com.dk.server.security.AuthenticationFailure;
+import com.dk.server.security.AuthenticationSuccess;
 
 
 @Configuration
 public class SecurityConfiguration {
-    // https://spring.io/blog/2022/02/21/spring-security-without-the-websecurityconfigureradapter
-    /*
-    @Configuration
-    @EnableWebSecurity
-    public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+	@Autowired
+	private AuthenticationFailure authFailure;
+	
+	@Autowired
+	private AuthenticationSuccess authSuccess;
 
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            http
-                .authorizeRequests()
-                    .antMatchers("/public/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/home")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .permitAll();
-        }
+	@Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {      
+        http.csrf().disable().httpBasic().disable().authorizeHttpRequests()
+        .requestMatchers("/", "/api/v2/login", "/api/v2/who").permitAll()
+        .anyRequest().authenticated().and()
+        .formLogin()
+			.successHandler(authSuccess)
+			.failureHandler(authFailure)
+			.loginProcessingUrl("/api/v2/login")
+			.usernameParameter("email")
+			.passwordParameter("password")
+			.permitAll()
+	        .and()
+	    .logout()
+	        .permitAll()
+	     ;
+
+        
+        http.headers().frameOptions().sameOrigin();
+ 
+        return http.build();
     }
-    */
+    
 
     @Bean
     public PasswordEncoder encoder() {

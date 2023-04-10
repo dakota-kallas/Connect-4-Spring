@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,7 +19,8 @@ import com.dk.server.repositories.UserRepository;
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class ServerApplication implements CommandLineRunner{
+@ComponentScan(basePackages = "com.dk.server")
+public class ServerApplication {
 	
 	@Autowired
     GameRepository gameRepo;

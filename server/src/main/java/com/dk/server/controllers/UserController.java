@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dk.server.models.User;
 import com.dk.server.services.UserService;
 
 
@@ -30,5 +31,18 @@ public class UserController {
 //         session.setAttribute("myAttribute", "myValue");
 //         return "myPage";
 //     }
+	
+	@GetMapping("/who")
+	public User who( Principal p ) {
+		if(p != null && p.getName() != null) {
+			User user = (User) userService.loadUserByUsername(p.getName());
+			System.out.println(user);
+			System.out.println("USERNAME: " + user.getUsername() + " | PASSWORD: " + user.getPassword());
+			return user;
+		}
+		else {
+			return null;
+		}
+	}
 }
 

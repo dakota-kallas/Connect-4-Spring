@@ -33,7 +33,7 @@ public class GameService {
 
 	public Game createGame(String color, String playerToken, String computerToken, String owner) {
 		Theme theme = new Theme.Builder()
-        		.color(color)
+        		.color("#" + color)
         		.playerToken(tokenRepo.findByName(playerToken))
         		.computerToken(tokenRepo.findByName(computerToken))
         		.build();

@@ -1,7 +1,9 @@
 package com.dk.server.models;
 
+import java.util.List;
+
 public class Metadata {
-    private Token[] tokens;
+    private List<Token> tokens;
     private Theme defaultTheme;
 
     public Metadata() {}
@@ -11,11 +13,11 @@ public class Metadata {
         this.defaultTheme = b.defaultTheme;
     }
 
-    public Token[] getTokens() {
+    public List<Token> getTokens() {
         return this.tokens;
     }
 
-    public void setTokens(Token[] tokens) {
+    public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
     }
 
@@ -28,10 +30,10 @@ public class Metadata {
     }
 
     public static class Builder {
-		private Token[] tokens;
+		private List<Token> tokens;
 		private Theme defaultTheme;
 		
-		public Builder tokens( Token[] tokens ) { this.tokens = tokens; return this; }
+		public Builder tokens( List<Token> tokens ) { this.tokens = tokens; return this; }
 		public Builder defaultTheme( Theme defaultTheme) { this.defaultTheme = defaultTheme; return this; }
 		public Metadata build( ) { return new Metadata( this ); }
 	}

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.dk.server.security.AuthenticationFailure;
 import com.dk.server.security.AuthenticationSuccess;
@@ -23,7 +24,7 @@ public class SecurityConfiguration {
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {      
         http.csrf().disable().httpBasic().disable().authorizeHttpRequests()
-        .requestMatchers("/", "/api/v2/login", "/api/v2/who").permitAll()
+        .requestMatchers("/", "/api/v2/login", "/api/v2/who", "/api/v2/logout").permitAll()
         .anyRequest().authenticated().and()
         .formLogin()
 			.successHandler(authSuccess)
@@ -34,6 +35,9 @@ public class SecurityConfiguration {
 			.permitAll()
 	        .and()
 	    .logout()
+	    	.logoutRequestMatcher(new AntPathRequestMatcher("/api/v2/logout")) // Set custom logout endpoint
+	    	.invalidateHttpSession(true)
+	    	.deleteCookies("JSESSIONID")
 	        .permitAll()
 	     ;
 

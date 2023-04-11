@@ -3,46 +3,87 @@ package com.dk.server.controllers;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dk.server.controllers.GameController.CreateGameRequest;
+import com.dk.server.models.Metadata;
+import com.dk.server.models.Theme;
 import com.dk.server.models.User;
+import com.dk.server.services.MetaService;
+import com.dk.server.services.TokenService;
 import com.dk.server.services.UserService;
 
+import jakarta.annotation.PostConstruct;
 
 @RestController
+@RequestMapping( "/api/v2/" )
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-//	 @RequestMapping(value="/user", method=RequestMethod.GET)
-//	 @Nullable
-//	 public UserDetails getUser( Principal p ) {
-//	 	if( p == null || p.getName() == null ) return null;
-//	 	return userService.loadUserByUsername( p.getName() );
-//	 }
+	@Autowired
+	private TokenService tokenService;
+	@Autowired
+	private MetaService metaService;
 
-//	 @GetMapping("/login")
-//     public String myPage(HttpSession session) {
-//         session.setAttribute("myAttribute", "myValue");
-//         return "myPage";
-//     }
-	
-	@GetMapping("/who")
-	public User who( Principal p ) {
-		if(p != null && p.getName() != null) {
+	@GetMapping("/meta/")
+	public Metadata meta(Principal p) {
+		return metaService.getMeta();
+	}
+
+	@GetMapping("/who/")
+	public User who(Principal p) {
+		if (p != null && p.getName() != null) {
 			User user = (User) userService.loadUserByUsername(p.getName());
-			System.out.println(user);
-			System.out.println("USERNAME: " + user.getUsername() + " | PASSWORD: " + user.getPassword());
 			return user;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
-}
+	
+	@PutMapping("/defaults/")
+	public Theme setDefaultTheme( Principal p, @RequestBody UpdateThemeRequest body ) {
+		User user = who(p);
+		Theme theme = new Theme.Builder()
+				.color(body.getColor())
+				.playerToken(tokenService.getTokenFromName(body.getPlayerToken()))
+				.computerToken(tokenService.getTokenFromName(body.getComputerToken()))
+				.build();
+		user.setDefaults(theme);
+		userService.updateUser(user);
+		return theme;
+	}
+	
+	public static class UpdateThemeRequest {
+	    private String color;
+	    private String playerToken;
+	    private String computerToken;
+	    // Getters and setters for playerToken and computerToken
+	    public String getPlayerToken() {
+	        return playerToken;
+	    }
 
+	    public void setPlayerToken(String playerToken) {
+	        this.playerToken = playerToken;
+	    }
+
+	    public String getComputerToken() {
+	        return computerToken;
+	    }
+
+	    public void setComputerToken(String computerToken) {
+	        this.computerToken = computerToken;
+	    }
+
+		public String getColor() {
+			return color;
+		}
+
+		public void setColor(String color) {
+			this.color = color;
+		}
+	}
+}

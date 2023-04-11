@@ -1,6 +1,6 @@
 package com.dk.server.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,8 +10,8 @@ public class Game {
     @Id
 	private String id;
     private String owner;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private Theme theme;
     private String status;
     private String[][] grid;
@@ -43,19 +43,19 @@ public class Game {
         this.owner = owner;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return this.start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return this.end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
@@ -85,15 +85,15 @@ public class Game {
 
 	public static class Builder {
         private String owner;
-        private Date start;
-        private Date end;
+        private LocalDate start;
+        private LocalDate end;
         private Theme theme;
         private String status;
         private String[][] grid;
 		
 		public Builder owner( String owner ) { this.owner = owner; return this; }
-		public Builder start( Date start ) { this.start = start; return this; }
-		public Builder end( Date end ) { this.end = end; return this; }
+		public Builder start( LocalDate start ) { this.start = start; return this; }
+		public Builder end( LocalDate end ) { this.end = end; return this; }
 		public Builder theme( Theme theme ) { this.theme = theme; return this; }
 		public Builder status( String status ) { this.status = status; return this; }
 		public Builder grid( String[][] grid ) { this.grid = grid; return this; }

@@ -40,7 +40,7 @@ export class GamesComponent implements OnInit {
 
   getGames() {
     this.authService.getAuthenticatedUser().subscribe((user) => {
-      if (user && typeof user === 'object' && 'id' in user) {
+      if (user && typeof user === 'object' && 'email' in user) {
         this.gameApi.getAll().subscribe((games) => {
           this.games = games;
         });
@@ -84,10 +84,10 @@ export class GamesComponent implements OnInit {
   getDefaults() {
     this.gameApi.getMeta().subscribe((meta) => {
       this.meta = meta;
-      this.playerToken = meta.default.playerToken.name;
-      this.computerToken = meta.default.computerToken.name;
+      this.playerToken = meta.defaultTheme.playerToken.name;
+      this.computerToken = meta.defaultTheme.computerToken.name;
       this.authService.getAuthenticatedUser().subscribe((user) => {
-        if (user && typeof user === 'object' && 'id' in user) {
+        if (user && typeof user === 'object' && 'email' in user) {
           this.color = user.defaults.color;
           this.playerToken = user.defaults.playerToken.name;
           this.computerToken = user.defaults.computerToken.name;
@@ -102,7 +102,7 @@ export class GamesComponent implements OnInit {
     this.defaultUpdated = false;
     this.errorOccured = false;
     this.authService.getAuthenticatedUser().subscribe((result) => {
-      if (typeof result === 'object' && 'id' in result) {
+      if (typeof result === 'object' && 'email' in result) {
         if (
           this.computerToken &&
           this.playerToken &&

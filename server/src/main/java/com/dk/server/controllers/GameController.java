@@ -36,18 +36,50 @@ public class GameController {
 	}
 	
 	@GetMapping("/gids/{gid}")
-	public Game findGame( Principal p, @RequestParam(required=true) String gid ) throws BadRequestException {
+	public Game findGame( Principal p, @PathVariable String gid ) throws BadRequestException {
 		validateOwner( p );
-		validateGameOwner( p.getName(), gid );
+		validateGameOwner( gid, p.getName() );
+		return gameService.findById(gid);
+	}
+	
+	@PostMapping("/gids/{gid}")
+	public Game makeMove( Principal p, @PathVariable String gid,  @RequestParam(required=true) String move) {
+		Game game = gameService.findById(gid);
+		int nextRow = gameService.findNextAvailableSlot(game, Integer.parseInt(move));
+		if(nextRow < 0 || nextRow > 4) {
+			return game;
+		}
+		else {
+			game = gameService.addToken(game, nextRow, Integer.parseInt(move));
+		}
 		return gameService.findById(gid);
 	}
 	
 	@PostMapping("/")
-	public Game createGame( @RequestBody String playerToken, @RequestBody String computerToken, Principal p, @RequestParam(required=true) String color ) throws BadRequestException {
+	public Game createGame( @RequestBody CreateGameRequest body, Principal p, @RequestParam(required=true) String color ) throws BadRequestException {
 		validateOwner( p );
-		return gameService.createGame(color, playerToken, computerToken, p.getName());
+		return gameService.createGame(color, body.getPlayerToken(), body.getComputerToken(), p.getName());
 	}
 
+	public static class CreateGameRequest {
+	    private String playerToken;
+	    private String computerToken;
+	    // Getters and setters for playerToken and computerToken
+	    public String getPlayerToken() {
+	        return playerToken;
+	    }
 
+	    public void setPlayerToken(String playerToken) {
+	        this.playerToken = playerToken;
+	    }
+
+	    public String getComputerToken() {
+	        return computerToken;
+	    }
+
+	    public void setComputerToken(String computerToken) {
+	        this.computerToken = computerToken;
+	    }
+	}
 
 }

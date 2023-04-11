@@ -33,8 +33,6 @@ public class UserService implements UserDetailsService {
 		if( user == null ) {
 			throw new UsernameNotFoundException("no such user");
 		} else {
-			System.out.println( user.getUsername() );
-			System.out.println( user.getPassword() );
 			return user;
 		}
 	}

@@ -3,7 +3,7 @@ package com.dk.server;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+//import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +19,7 @@ import com.dk.server.repositories.UserRepository;
 
 @SpringBootApplication
 @EnableMongoRepositories
-@ComponentScan(basePackages = "com.dk.server")
+@ComponentScan
 public class ServerApplication {
 	
 	@Autowired

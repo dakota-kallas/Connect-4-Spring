@@ -40,7 +40,7 @@ export class GameComponent implements OnInit {
       this.gameApi.makeMove(this.game, column).subscribe((result) => {
         if (typeof result === 'object' && 'id' in result) {
           this.game = result;
-          if (this.game.status != 'UNFINISHED') {
+          if (this.game?.status != 'UNFINISHED') {
             this.isClickable = false;
           }
         }

@@ -1,6 +1,6 @@
-# Connect-4
+# Connect 4 (Angular, Spring, MongoDB)
 
-The Connect 4 project is an implementation of the classic Connect 4 game as a web application using the Spring & Angular framework. This application should function identically to my other project, <a href="https://github.com/dakota-kallas/Connect-4" target="_blank">Connect 4 (Express)</a>, only this project uses a Spring backend along with MongoDB rather than a non-persistent Express backend. The goal of this project is to provide a fun, interactive, and user-friendly platform for players to enjoy the game on the web.
+The Connect 4 project is an implementation of the classic Connect 4 game as a web application using the Spring & Angular framework along with MongoDB. This application should function identically to my other project, <a href="https://github.com/dakota-kallas/Connect-4" target="_blank">Connect 4 (Express)</a>, only this project uses a Spring backend along with MongoDB rather than a non-persistent Express backend. The goal of this project is to provide a fun, interactive, and user-friendly platform for players to enjoy the game on the web.
 
 ## Gameplay
 

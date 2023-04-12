@@ -63,7 +63,7 @@ public class UserController {
 	    private String color;
 	    private String playerToken;
 	    private String computerToken;
-	    // Getters and setters for playerToken and computerToken
+	    
 	    public String getPlayerToken() {
 	        return playerToken;
 	    }

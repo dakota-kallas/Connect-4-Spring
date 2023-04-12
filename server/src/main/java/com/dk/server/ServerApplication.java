@@ -3,6 +3,7 @@ package com.dk.server;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 //import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +21,7 @@ import com.dk.server.repositories.UserRepository;
 @SpringBootApplication
 @EnableMongoRepositories
 @ComponentScan
-public class ServerApplication {
+public class ServerApplication implements CommandLineRunner {
 	
 	@Autowired
     GameRepository gameRepo;
@@ -38,9 +39,9 @@ public class ServerApplication {
 	
 	public void run(String... args) {
         
-        // System.out.println("-------------CREATE USERS, TOKENS, THEMES---------------------------\n");
+        System.out.println("-------------CREATE USERS, TOKENS, THEMES---------------------------\n");
         
-        // createData();
+        createData();
         
         System.out.println("\n------------------SHOW ALL USERS-----------------------------\n");
         
@@ -48,17 +49,7 @@ public class ServerApplication {
         
         System.out.println("\n--------------GET USER BY USERNAME-------------------------------\n");
         
-        getUsersByUsername("dakota@test.com");
-        
-    
-        // System.out.println("\n-----------UPDATE DEFAULTS OF DAKOTA@TEST.COM----------------\n");
-        
-        // updateDefaults("dakota@test.com");    
-        
-        
-        // System.out.println("\n--------------GET USER BY USERNAME-------------------------------\n");
-        
-        // getUsersByUsername("dakota@test.com");
+        getUsersByUsername("dakota@test.com");      
                 
         
         System.out.println("\n------------FINAL COUNT OF USERS-------------------------\n");
@@ -74,9 +65,15 @@ public class ServerApplication {
     }
 	
 	void createData() {
+		if(this.userRepo.count() > 0 ) {
+			System.out.println("Data already exists, skipping this step.");
+			return;
+		}
+		
 		System.out.println("Clearing...");
 		this.userRepo.deleteAll();
 		this.tokenRepo.deleteAll();
+		this.gameRepo.deleteAll();
 
         System.out.println("Data creation started...");
         String hashedPassword = encoder.encode("123");
@@ -102,7 +99,7 @@ public class ServerApplication {
         		.build());
         
         Theme theme = new Theme.Builder()
-        		.color("#fff000")
+        		.color("#ff0000")
         		.playerToken(tokenRepo.findByName("Monkey"))
         		.computerToken(tokenRepo.findByName("Elvis"))
         		.build();
@@ -122,6 +119,39 @@ public class ServerApplication {
 				.roles( Arrays.asList( "USER" ) )
 				.password( hashedPassword )
 				.username( "other@test.com" )
+				.defaults(theme)
+				.isEnabled( true )
+				.isAccountNonExpired( true )
+				.isAccountNonLocked(true)
+				.isCredentialsNonExpired(true)
+				.build());
+        
+        userRepo.save(new User.Builder()
+				.roles( Arrays.asList( "USER", "ADMIN" ) )
+				.password( encoder.encode("111111111") )
+				.username( "bilbo@mordor.org" )
+				.defaults(theme)
+				.isEnabled( true )
+				.isAccountNonExpired( true )
+				.isAccountNonLocked(true)
+				.isCredentialsNonExpired(true)
+				.build());
+        
+        userRepo.save(new User.Builder()
+				.roles( Arrays.asList( "USER", "ADMIN" ) )
+				.password( encoder.encode("222222222") )
+				.username( "frodo@mordor.org" )
+				.defaults(theme)
+				.isEnabled( true )
+				.isAccountNonExpired( true )
+				.isAccountNonLocked(true)
+				.isCredentialsNonExpired(true)
+				.build());
+        
+        userRepo.save(new User.Builder()
+				.roles( Arrays.asList( "USER", "ADMIN" ) )
+				.password( encoder.encode("333333333") )
+				.username( "samwise@mordor.org" )
 				.defaults(theme)
 				.isEnabled( true )
 				.isAccountNonExpired( true )

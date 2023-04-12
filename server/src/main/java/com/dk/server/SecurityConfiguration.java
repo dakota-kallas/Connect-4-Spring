@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.dk.server.security.AuthenticationFailure;
 import com.dk.server.security.AuthenticationSuccess;
@@ -33,10 +32,10 @@ public class SecurityConfiguration {
 	@Autowired
 	private EntryPointUnauthorizedHandler authDenied;
 
-	@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {      
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {      
 		http
-			.authorizeHttpRequests(requests -> requests.requestMatchers("/*", "/assets/*", "/api/v2/login", "/api/v2/who", "/api/v2/logout")
+			.authorizeHttpRequests(requests -> requests.requestMatchers("/*", "/assets/*", "/api/v2/login", "/api/v2/who/", "/api/v2/logout")
 				.permitAll()
 				.anyRequest().authenticated())
 			.formLogin(login -> login
@@ -65,10 +64,10 @@ public class SecurityConfiguration {
 				.authenticationEntryPoint(authDenied));
         return http.build();
     }
-    
+
 
     @Bean
-    public PasswordEncoder encoder() {
+    PasswordEncoder encoder() {
     		PasswordEncoder encoder = new BCryptPasswordEncoder(10);
         return encoder;
     }

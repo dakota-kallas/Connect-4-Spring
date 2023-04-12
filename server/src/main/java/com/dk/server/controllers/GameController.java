@@ -68,7 +68,7 @@ public class GameController {
 	public static class CreateGameRequest {
 	    private String playerToken;
 	    private String computerToken;
-	    // Getters and setters for playerToken and computerToken
+
 	    public String getPlayerToken() {
 	        return playerToken;
 	    }

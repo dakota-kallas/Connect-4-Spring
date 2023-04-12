@@ -40,7 +40,7 @@ export class AuthService implements OnInit {
   fetchUser(): Observable<User | Error> {
     return this.http.get<User>(this.URL + '/who/').pipe(
       tap((user) => {
-        if (typeof user === 'object' && 'email' in user) {
+        if (user != null && typeof user === 'object' && 'email' in user) {
           this.setUser(user);
         } else {
           this.returnError(user);

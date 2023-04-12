@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dk.server.controllers.GameController.CreateGameRequest;
 import com.dk.server.models.Metadata;
 import com.dk.server.models.Theme;
 import com.dk.server.models.User;
+import com.dk.server.security.BadRequestException;
 import com.dk.server.services.MetaService;
 import com.dk.server.services.TokenService;
 import com.dk.server.services.UserService;
-
-import jakarta.annotation.PostConstruct;
 
 @RestController
 @RequestMapping( "/api/v2/" )
@@ -35,7 +33,7 @@ public class UserController {
 	}
 
 	@GetMapping("/who/")
-	public User who(Principal p) {
+	public User who(Principal p) throws BadRequestException {
 		if (p != null && p.getName() != null) {
 			User user = (User) userService.loadUserByUsername(p.getName());
 			return user;
@@ -45,7 +43,11 @@ public class UserController {
 	}
 	
 	@PutMapping("/defaults/")
-	public Theme setDefaultTheme( Principal p, @RequestBody UpdateThemeRequest body ) {
+	public Theme setDefaultTheme( Principal p, @RequestBody UpdateThemeRequest body ) throws BadRequestException {
+		if(body.computerToken == null || body.playerToken == null || body.color == null)
+		{
+			throw new BadRequestException();
+		}
 		User user = who(p);
 		Theme theme = new Theme.Builder()
 				.color(body.getColor())

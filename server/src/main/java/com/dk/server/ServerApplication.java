@@ -83,22 +83,22 @@ public class ServerApplication {
         
         tokenRepo.save(new Token.Builder()
         		.name("Monkey")
-        		.url("https://charity.cs.uwlax.edu/assets/avatars/avatar112.gif")
+        		.url("./assets/monkey.gif")
         		.build());
         
         tokenRepo.save(new Token.Builder()
         		.name("Elvis")
-        		.url("https://charity.cs.uwlax.edu/assets/avatars/avatar93.gif")
+        		.url("./assets/elvis.gif")
         		.build());
         
         tokenRepo.save(new Token.Builder()
         		.name("Bullet Train")
-        		.url("https://charity.cs.uwlax.edu/assets/avatars/avatar103.gif")
+        		.url("./assets/bullet_train.gif")
         		.build());
         
         tokenRepo.save(new Token.Builder()
         		.name("Western")
-        		.url("https://charity.cs.uwlax.edu/assets/avatars/avatar114.gif")
+        		.url("./assets/western.gif")
         		.build());
         
         Theme theme = new Theme.Builder()

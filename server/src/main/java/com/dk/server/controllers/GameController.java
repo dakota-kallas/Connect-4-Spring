@@ -43,11 +43,11 @@ public class GameController {
 	}
 	
 	@PostMapping("/gids/{gid}")
-	public Game makeMove( Principal p, @PathVariable String gid,  @RequestParam(required=true) String move) {
+	public Game makeMove( Principal p, @PathVariable String gid,  @RequestParam(required=true) String move) throws BadRequestException {
 		Game game = gameService.findById(gid);
 		int nextRow = gameService.findNextAvailableSlot(game, Integer.parseInt(move));
 		if(nextRow < 0 || nextRow > 4) {
-			return game;
+			throw new BadRequestException();
 		}
 		else {
 			game = gameService.addToken(game, nextRow, Integer.parseInt(move));
@@ -57,6 +57,10 @@ public class GameController {
 	
 	@PostMapping("/")
 	public Game createGame( @RequestBody CreateGameRequest body, Principal p, @RequestParam(required=true) String color ) throws BadRequestException {
+		if(body.computerToken == null || body.playerToken == null || color == null)
+		{
+			throw new BadRequestException();
+		}
 		validateOwner( p );
 		return gameService.createGame(color, body.getPlayerToken(), body.getComputerToken(), p.getName());
 	}

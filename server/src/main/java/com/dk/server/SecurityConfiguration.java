@@ -11,6 +11,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.dk.server.security.AuthenticationFailure;
 import com.dk.server.security.AuthenticationSuccess;
+import com.dk.server.security.EntryPointUnauthorizedHandler;
 
 
 @Configuration
@@ -20,30 +21,29 @@ public class SecurityConfiguration {
 	
 	@Autowired
 	private AuthenticationSuccess authSuccess;
+	
+	@Autowired
+	private EntryPointUnauthorizedHandler authDenied;
 
 	@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {      
-        http.csrf().disable().httpBasic().disable().authorizeHttpRequests()
-        .requestMatchers("/", "/api/v2/login", "/api/v2/who", "/api/v2/logout").permitAll()
-        .anyRequest().authenticated().and()
-        .formLogin()
-			.successHandler(authSuccess)
-			.failureHandler(authFailure)
-			.loginProcessingUrl("/api/v2/login")
-			.usernameParameter("email")
-			.passwordParameter("password")
-			.permitAll()
-	        .and()
-	    .logout()
-	    	.logoutRequestMatcher(new AntPathRequestMatcher("/api/v2/logout")) // Set custom logout endpoint
-	    	.invalidateHttpSession(true)
-	    	.deleteCookies("JSESSIONID")
-	        .permitAll()
-	     ;
-
-        
-        http.headers().frameOptions().sameOrigin();
- 
+		http
+			.authorizeHttpRequests(requests -> requests.requestMatchers("/*", "/api/v2/login", "/api/v2/who", "/api/v2/logout")
+				.permitAll()
+				.anyRequest().authenticated())
+			.formLogin(login -> login
+				.successHandler(authSuccess)
+				.failureHandler(authFailure)
+				.loginProcessingUrl("/api/v2/login")
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.permitAll())
+			.logout(logout -> logout
+				.permitAll())
+			.csrf(csrf -> csrf
+				.disable())
+			.exceptionHandling(handling -> handling
+				.authenticationEntryPoint(authDenied));
         return http.build();
     }
     

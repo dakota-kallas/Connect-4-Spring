@@ -3,6 +3,7 @@ package com.dk.server;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,7 +20,7 @@ import com.dk.server.repositories.UserRepository;
 @SpringBootApplication
 @EnableMongoRepositories
 @ComponentScan
-public class ServerApplication {
+public class ServerApplication implements CommandLineRunner {
 	
 	@Autowired
     GameRepository gameRepo;
@@ -66,12 +67,7 @@ public class ServerApplication {
         
     }
 	
-	void createData() {
-//		if(this.userRepo.count() > 0 ) {
-//			System.out.println("Data already exists, skipping this step.");
-//			return;
-//		}
-		
+	void createData() {		
 		System.out.println("Clearing...");
 		this.userRepo.deleteAll();
 		this.tokenRepo.deleteAll();

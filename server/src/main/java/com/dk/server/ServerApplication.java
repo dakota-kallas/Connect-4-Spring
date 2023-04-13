@@ -3,8 +3,6 @@ package com.dk.server;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-//import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +19,7 @@ import com.dk.server.repositories.UserRepository;
 @SpringBootApplication
 @EnableMongoRepositories
 @ComponentScan
-public class ServerApplication implements CommandLineRunner {
+public class ServerApplication {
 	
 	@Autowired
     GameRepository gameRepo;
@@ -37,6 +35,10 @@ public class ServerApplication implements CommandLineRunner {
 		SpringApplication.run(ServerApplication.class, args);
 	}
 	
+	/**
+	 * Method used to generate initial data into database
+	 * @param args
+	 */
 	public void run(String... args) {
         
         System.out.println("-------------CREATE USERS, TOKENS, THEMES---------------------------\n");
@@ -65,10 +67,10 @@ public class ServerApplication implements CommandLineRunner {
     }
 	
 	void createData() {
-		if(this.userRepo.count() > 0 ) {
-			System.out.println("Data already exists, skipping this step.");
-			return;
-		}
+//		if(this.userRepo.count() > 0 ) {
+//			System.out.println("Data already exists, skipping this step.");
+//			return;
+//		}
 		
 		System.out.println("Clearing...");
 		this.userRepo.deleteAll();
@@ -187,7 +189,7 @@ public class ServerApplication implements CommandLineRunner {
 
         System.out.println(
         "Username: " + user.getUsername() + 
-        ", \nDefaults: " + user.getDefaults() +
+        ", \nDefaults | PT:" + user.getDefaults().getPlayerToken().getName() + " | CT: " + user.getDefaults().getComputerToken().getName() +
         ", \nPassword: " + user.getPassword()
         );
         
